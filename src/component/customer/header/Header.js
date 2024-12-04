@@ -1,24 +1,20 @@
-import {
-  EnvironmentOutlined,
-  FileSearchOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { EnvironmentOutlined, FileSearchOutlined, UserOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./style-header.css";
 import { deleteToken } from "../../../helper/useCookies";
 import { useCookies } from "react-cookie";
-import { Color } from "antd/es/color-picker";
+
 function SalesHeader() {
-  const idUser = sessionStorage.getItem("walletAddress");
+  const [cookies, setCookies, removeCookies] = useCookies(["walletAddress"]); // Sử dụng useCookies để lấy địa chỉ ví từ cookies
   const [openInfor, setOpenInfo] = useState(false);
 
-  const [cookies] = useCookies(["walletAddress"]);
   const nav = useNavigate();
 
   useEffect(() => {
-    console.log(idUser);
-  }, []);
+    console.log(cookies.walletAddress); // In ra địa chỉ ví từ cookies khi component được render
+  }, [cookies.walletAddress]);
+
   const handleMenuHover = () => {
     setOpenInfo(true);
   };
@@ -28,21 +24,27 @@ function SalesHeader() {
   };
 
   const logout = () => {
+    // Xóa cookies và sessionStorage
     deleteToken();
-    sessionStorage.removeItem("walletAddress");
-    window.location.href = "/home";
+    removeCookies("walletAddress", { path: "/" }); // Xóa địa chỉ ví khỏi cookies
+    sessionStorage.removeItem("walletAddress"); // Xóa thông tin ví khỏi sessionStorage
+    window.location.href = "/home"; // Điều hướng về trang chủ
   };
+
+  // Kiểm tra xem đã kết nối ví hay chưa, nếu có thì sử dụng walletAddress từ cookies
+  const walletAddress = cookies.walletAddress || "No wallet connected";
+  const idUser = walletAddress !== "No wallet connected" ? walletAddress : null;
 
   return (
     <div className="header">
-      
-      
       <div
         className="content-header-account"
         onMouseEnter={handleMenuHover}
         onMouseLeave={handleMenuLeave}
       >
-        <p style={{ color: "white",  display: "flex", justifyContent: "center", alignItems: "center"}}>{cookies.walletAddress || "No wallet connected"}</p>
+        <p style={{ color: "white", display: "flex", justifyContent: "center", alignItems: "center" }}>
+          {walletAddress} {/* Hiển thị địa chỉ ví hoặc thông báo chưa kết nối ví */}
+        </p>
         <Link
           to={idUser === null ? "/login" : "#"}
           className="title-header-account"
