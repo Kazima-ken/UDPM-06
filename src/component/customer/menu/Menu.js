@@ -168,7 +168,7 @@ function HeaderMenu() {
 
       <div className={`search-panel ${modal === true ? "visible" : "hidden"}`}>
         <div className="header-search">
-          <div className="text-search">Tìm kiếm sản phẩm</div>
+          <div className="text-search"></div>
 
           <div className="exit-search">
             <LoginOutlined style={{ color: "#ff4400" }} onClick={offSearch} />

@@ -70,6 +70,9 @@
   color: #ff4400;
 }
 
+
+
+
 .dropdown-item:first-child::before {
   content: "";
   position: absolute;
@@ -86,7 +89,7 @@
 }
 .dropdown-list {
   top: 100%;
-  left: -80%;
+  left: -50%;
   position: absolute;
   width: 170px;
   border-radius: 5px;
@@ -116,7 +119,7 @@
 .dropdown-item {
   list-style: none;
   padding: 10px 20px;
-  background-color: #ffffff;
+  background-color: #b7b7b7;
   display: flex;
   align-items: center;
   cursor: pointer;

@@ -1,0 +1,88 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    width: 400px;
+    margin: 50px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  .btn-connect {
+    background-color: #00a033;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-connect:hover {
+    background-color: #0056b3;
+  }
+
+  .wallet-address,
+  .checking-status,
+  .error-message {
+    font-size: 16px;
+    margin-top: 10px;
+  }
+
+  .wallet-address {
+    color: #4c99af;
+  }
+
+  .error-message {
+    color: #f44336;
+  }
+
+  .checking-status {
+    color: #ff9800;
+  }
+
+  .register-form {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .register-form h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .email-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .btn-register {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-register:hover {
+    background-color: #0056b3;
+  }

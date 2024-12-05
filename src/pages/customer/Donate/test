@@ -1,0 +1,91 @@
+import React, { useState } from "react";
+import { useCookies } from "react-cookie";
+import { Connection, PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL } from "@solana/web3.js";
+
+const PhantomTransfer = () => {
+  const [cookies, setCookie] = useCookies(["walletAddress"]);
+  const [recipient, setRecipient] = useState("");
+  const [amount, setAmount] = useState("");
+  const [status, setStatus] = useState("");
+
+  // Lấy địa chỉ ví người gửi từ cookie
+  const senderAddress = cookies.walletAddress;
+
+  const transferSOL = async () => {
+    try {
+      if (!senderAddress) {
+        setStatus("Không tìm thấy địa chỉ ví người gửi trong cookie.");
+        return;
+      }
+
+      if (!window.solana || !window.solana.isPhantom) {
+        setStatus("Vui lòng cài đặt ví Phantom.");
+        return;
+      }
+
+      // Kết nối ví Phantom
+      const provider = window.solana;
+      await provider.connect();
+
+      const connection = new Connection("https://api.mainnet-beta.solana.com", "confirmed");
+      const sender = new PublicKey(senderAddress);
+
+      const recipientPublicKey = new PublicKey(recipient);
+      const amountInLamports = parseFloat(amount) * LAMPORTS_PER_SOL;
+
+      const transaction = new Transaction().add(
+        SystemProgram.transfer({
+          fromPubkey: sender,
+          toPubkey: recipientPublicKey,
+          lamports: amountInLamports,
+        })
+      );
+
+      transaction.feePayer = sender;
+      const { blockhash } = await connection.getRecentBlockhash();
+      transaction.recentBlockhash = blockhash;
+
+      // Ký giao dịch
+      const signedTransaction = await provider.signTransaction(transaction);
+      const signature = await connection.sendRawTransaction(signedTransaction.serialize());
+      await connection.confirmTransaction(signature, "confirmed");
+
+      setStatus(`Chuyển thành công! Mã giao dịch: ${signature}`);
+    } catch (error) {
+      console.error("Lỗi:", error);
+      setStatus("Có lỗi xảy ra, vui lòng thử lại.");
+    }
+  };
+
+  return (
+    <div>
+      <h2>Chuyển tiền SOL qua ví Phantom</h2>
+      <div>
+        <label>
+          Địa chỉ người nhận:
+          <input
+            type="text"
+            value={recipient}
+            onChange={(e) => setRecipient(e.target.value)}
+            placeholder="Nhập địa chỉ ví"
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          Số lượng SOL:
+          <input
+            type="number"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            placeholder="Nhập số lượng SOL"
+          />
+        </label>
+      </div>
+      <button onClick={transferSOL}>Chuyển tiền</button>
+      <p>{status}</p>
+    </div>
+  );
+};
+
+export default PhantomTransfer;
