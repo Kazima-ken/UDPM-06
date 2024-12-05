@@ -34,8 +34,6 @@ const Home = () => {
 
   if (loading) return <div className="loading">Đang tải dữ liệu...</div>;
 
-  if (!nfts || nfts.length === 0)
-    return <div className="noNfts">Không có NFT nào để hiển thị.</div>;
   
 
   return (
@@ -43,7 +41,7 @@ const Home = () => {
       <div className="headerContainer">
         <h1 className="title">Danh Sách Các Câu Lạc Bộ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </h1>
         <Link to="/create-nft" className="addButton">
-          Thêm mới NFT
+          Thêm Event
         </Link>
       </div>
 
